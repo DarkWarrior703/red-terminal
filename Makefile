@@ -5,8 +5,10 @@ all: redterm regenerate.py display.py config.json
 install: all
 	mkdir -p ~/.local/bin/redterminal ; true
 	cp redterm ~/.local/bin/
-	cp {regenerate.py,display.py} ~/.local/bin/redterminal/
-	mkdir -p ~/.config/redterminal/ ; true
+	cp regenerate.py ~/.local/bin/redterminal/
+	cp display.py ~/.local/bin/redterminal/
+	touch ~/.local/bin/redterminal/__init__.py
+	mkdir -p ~/.config/redterminal/data ; true
 	cp config.json ~/.config/redterminal/
 
 uninstall: all

@@ -5,6 +5,8 @@ import random
 import time
 from pathlib import Path
 
+from regenerate import regenerate
+
 home = Path.home()
 subreddit = "dadjokes"
 post = []
@@ -18,13 +20,16 @@ def get_subreddit():
     except:
         with open(Path(home, ".config/redterminal/config.json"), "r") as f:
             data = json.load(f)
-            subreddit = data['subreddit']
+            if data['subreddit'] != '':
+                subreddit = data['subreddit']
 
 def get_post():
     try:
         f = open(Path(home,".config/redterminal/data/{0}.json".format(subreddit)))
     except:
-        sys.exit(str(Path(home,".config/redterminal/data/{0}.json".format(subreddit))) + " does not exist.\nCreate it using redterm regenerate")
+        print(str(Path(home,".config/redterminal/data/{0}.json".format(subreddit))) + " does not exist.\nCreating it using redterm regenerate")
+        regenerate(subreddit)
+        f = open(Path(home,".config/redterminal/data/{0}.json".format(subreddit)))
     data = json.load(f)
     data = data['{0}'.format(subreddit)]
     number = random.randint(0, len(data) - 1)
@@ -72,9 +77,9 @@ def string_text():
     strings.append(center_text(""))
     line = ""
     for i in post['title'][1:-1].split():
+        if len(i) > ACTUAL - 5:
+            continue
         if len(i) + len(line) >= ACTUAL - 5:
-            if len(i) > ACTUAL - 5:
-                continue
             strings.append(center_text(line))
             line = i
         else:
@@ -85,6 +90,8 @@ def string_text():
     strings.append(center_text(""))
     strings.append(center_text(""))
     for i in post['selftext'][1:-1].split():
+        if len(i) > ACTUAL - 5:
+            continue
         if len(i) + len(line) >= ACTUAL - 5:
             strings.append(center_text(line))
             line = i
@@ -120,4 +127,5 @@ def main():
     gen_string()
     display_art()
 
-main()
+if __name__ == "__main__":
+    main()
