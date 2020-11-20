@@ -1,0 +1,12 @@
+#!/bin/sh
+
+dir=$(pwd)
+cd ~/.local/bin/redterminal
+
+if [ "$1" == "regenerate" ]; then
+    python regenerate.py $2
+elif [ "$1" == "display" ]; then
+    python display.py $2
+fi
+
+cd $dir
