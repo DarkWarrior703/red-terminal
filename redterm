@@ -3,10 +3,12 @@
 dir=$(pwd)
 cd ~/.local/bin/redterminal
 
-if [ "$1" == "regenerate" ]; then
-    python regenerate.py $2
-elif [ "$1" == "display" ]; then
-    python display.py $2
+if expr $1 = "regenerate" > /dev/null ; then
+	python regenerate.py $2
+elif expr $1 = "display" > /dev/null ; then
+	python display.py $2
+else
+	notify-send "Please use provide a valid argument"
 fi
 
 cd $dir
